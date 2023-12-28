@@ -49,7 +49,7 @@ class AutoInvoiceOrder implements ObserverInterface {
             $order = $observer->getEvent()->getOrder();
             $orderId = $order->getId();
             $order = $this->_orderRepository->get($orderId);
-            if($order->getGrandTotal()==0){
+            if($order->getPayment()->getMethod() == 'easycredit'){
                 $orderState = Order::STATE_COMPLETE;
                 $order->setState($orderState)->setStatus(Order::STATE_COMPLETE);
                 $order->save();
